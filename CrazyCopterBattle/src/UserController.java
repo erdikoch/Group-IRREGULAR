@@ -85,4 +85,3 @@ public abstract class UserController extends JPanel implements KeyListener, Mous
 
 }
 
-}
