@@ -32,9 +32,9 @@ public class EnemyHelicopter {
 	private static final double movingXspeedInit = -4;
 	private static double movingXspeed = movingXspeedInit;
 
-	public static BufferedImage helicopterBodyImg;
-	public static BufferedImage helicopterFrontPropellerAnimImg;
-	public static BufferedImage helicopterRearPropellerAnimImg;
+	public BufferedImage helicopterBodyImg;
+	public BufferedImage helicopterFrontPropellerAnimImg;
+	public BufferedImage helicopterRearPropellerAnimImg;
 
 	private Animation helicopterFrontPropellerAnim;
 	private Animation helicopterRearPropellerAnim;
@@ -65,7 +65,7 @@ public class EnemyHelicopter {
 		EnemyHelicopter.movingXspeed = movingXspeedInit;
 	}
 
-	public static void speedUp(){
+	public void speedUp(){
 		
 	}
 
