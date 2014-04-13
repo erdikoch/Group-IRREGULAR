@@ -79,6 +79,8 @@ public class Animation {
 					+ frameWidth;
 			
 			//Zaman ayarlanacak??? 
+			startingFrameTime = System.currentTimeMillis();
+			timeForNextFrame = startingFrameTime + frameTime;
 		}
 	}
 
