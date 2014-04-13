@@ -54,4 +54,36 @@ public class Animation {
 		currentFrameNumber = 0;
 		isActivated = true;
 	}
+
+	public void changeCoordinates(int x, int y) {
+		this.xLocation = x;
+		this.yLocation = y;
+	}
+
+	private void Update() {
+		if (timeForNextFrame <= System.currentTimeMillis()) {
+			currentFrameNumber++;
+
+			// If the animation is reached the end, we restart it by setting
+			// current frame to zero. If the animation isn't loop then we set
+			// that animation isn't active.
+			if (currentFrameNumber >= numberOfFrames) {
+				currentFrameNumber = 0;
+
+				if (!hasLoop)
+					isActivated = false;
+			}
+
+			startingXLocationOfImageFrame = currentFrameNumber * frameWidth;
+			endingXLocationOfImageFrame = startingXLocationOfImageFrame
+					+ frameWidth;
+			
+			//Zaman ayarlanacak??? 
+		}
+	}
+
+	public void Draw() {
+		this.Update();
+		//??
+	}
 }
