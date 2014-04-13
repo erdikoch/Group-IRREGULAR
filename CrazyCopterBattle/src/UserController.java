@@ -16,10 +16,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import javax.swing.JPanel;
 
-public abstract class UserController extends JPanel implements KeyListener, MouseListener {
+
+public abstract class UserController implements KeyListener, MouseListener {
 
 	private static final int NUM_OF_KEYBOARD_FUNCTIONS = 525;
 	private static final int NUM_OF_MOUSE_FUNCTIONS = 3;
