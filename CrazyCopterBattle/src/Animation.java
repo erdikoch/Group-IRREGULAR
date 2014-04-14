@@ -78,7 +78,6 @@ public class Animation {
 			endingXLocationOfImageFrame = startingXLocationOfImageFrame
 					+ frameWidth;
 			
-			//Zaman ayarlanacak??? 
 			startingFrameTime = System.currentTimeMillis();
 			timeForNextFrame = startingFrameTime + frameTime;
 		}
@@ -86,6 +85,6 @@ public class Animation {
 
 	public void Draw() {
 		this.Update();
-		//??
+		//..
 	}
 }
