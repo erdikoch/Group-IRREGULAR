@@ -1,4 +1,3 @@
-
 /*
  * Cs 320 Group Project / Group IRREGULAR
  * 
@@ -12,10 +11,10 @@
  * 5 - Ýsmetcan Hergünþen
  * 
  */
+
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-
 
 public class RocketSmoke {
 
@@ -23,36 +22,37 @@ public class RocketSmoke {
 	private int yCoordinate;
 
 	public long smokeLifeTime;
-
 	public long timeOfCreation;
 
 	public static BufferedImage smokeImg;
 
 	public float imageTransparency;
 
+	public void Initialize(int xCoordinate, int yCoordinate, long gameTime,
+			long smokeLifeTime) {
+		setGameTime(gameTime);
+		setCoordinates(xCoordinate, yCoordinate);
+		setSmokeLifeTime(smokeLifeTime);
+		setImageTransparency();
+	}
 
-	public void Initialize(int xCoordinate, int yCoordinate, long gameTime, long smokeLifeTime)
-	{
+	private void setGameTime(long gameTime) {
 		this.timeOfCreation = gameTime;
+	}
 
-		this.xCoordinate = xCoordinate;
-		this.yCoordinate = yCoordinate;
-
-		this.smokeLifeTime = smokeLifeTime;
-
+	private void setImageTransparency() {
 		this.imageTransparency = 1.0f;
 	}
 
-
-
-	public boolean isSmokeDisapper(long gameTime){
-		long currentLifeTime = gameTime - timeOfCreation;
-
-		if(currentLifeTime >= smokeLifeTime)
-			return true;
-		else
-			return false;
+	private void setSmokeLifeTime(long smokeLifeTime) {
+		this.smokeLifeTime = smokeLifeTime;
 	}
+
+	private void setCoordinates(int xCoordinate, int yCoordinate) {
+		this.xCoordinate = xCoordinate;
+		this.yCoordinate = yCoordinate;
+	}
+
 	public void updateTransparency(long gameTime) {
 
 		long currentLifeTime = gameTime - timeOfCreation;
@@ -65,9 +65,16 @@ public class RocketSmoke {
 			imageTransparency = rSmokeTransparency;
 	}
 
+	public boolean isSmokeDisapper(long gameTime) {
+		long currentLifeTime = gameTime - timeOfCreation;
+		if (currentLifeTime >= smokeLifeTime)
+			return true;
+		else
+			return false;
+	}
 
-	public void Draw(Graphics2D g2d){
-	g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
+	public void Draw(Graphics2D g2d) {
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
 				imageTransparency));
 
 		// While smoke is disappearing (imageTransparency), it also expanding.
@@ -84,5 +91,4 @@ public class RocketSmoke {
 
 		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
 	}
-
 }
