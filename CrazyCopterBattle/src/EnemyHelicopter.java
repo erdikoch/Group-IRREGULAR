@@ -19,7 +19,6 @@ import java.awt.image.BufferedImage;
 
 public class EnemyHelicopter {
 
-
 	private static final long timeBetweenNewEnemiesInit = Framework.secInNanosec * 3;
 	public static long timeBetweenNewEnemies = timeBetweenNewEnemiesInit;
 	public static long timeOfLastCreatedEnemy = 0;
@@ -66,10 +65,13 @@ public class EnemyHelicopter {
 	}
 
 	public void speedUp(){
-		
+		if (EnemyHelicopter.timeBetweenNewEnemies > Framework.secInNanosec)
+			EnemyHelicopter.timeBetweenNewEnemies -= Framework.secInNanosec / 100;
+
+		EnemyHelicopter.movingXspeed -= 0.25;
 	}
 
-
+// When the entire helicopter is out of the screen.
 	public boolean isLeftScreen()
 	{
 		if(xCoordinate < 0 - helicopterBodyImg.getWidth()) // When the entire helicopter is out of the screen.
@@ -80,16 +82,26 @@ public class EnemyHelicopter {
 
 	public void Update()
 	{
-
+		updateSpeed();
+		updatePropeller();
+		
+	}
+	private void updateSpeed() {
 		xCoordinate += movingXspeed;
+	}
 
-		helicopterFrontPropellerAnim.changeCoordinates(xCoordinate + offsetXFrontPropeller, yCoordinate + offsetYFrontPropeller);
-		helicopterRearPropellerAnim.changeCoordinates(xCoordinate + offsetXRearPropeller, yCoordinate + offsetYRearPropeller);
+private void updatePropeller() {
+		helicopterFrontPropellerAnim.changeCoordinates(xCoordinate
+				+ offsetXFrontPropeller, yCoordinate + offsetYFrontPropeller);
+		helicopterRearPropellerAnim.changeCoordinates(xCoordinate
+				+ offsetXRearPropeller, yCoordinate + offsetYRearPropeller);
 	}
 
 	public void Draw(Graphics2D g2d)
 	{ 
-		
+		helicopterFrontPropellerAnim.Draw(g2d);
+		g2d.drawImage(helicopterBodyImg, xCoordinate, yCoordinate, null);
+		helicopterRearPropellerAnim.Draw(g2d);
 	}
 
 }
