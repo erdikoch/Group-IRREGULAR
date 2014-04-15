@@ -37,6 +37,22 @@ public class Game {
 	}
 
 	private void initialize() {
+           random = new Random();
+		try {
+			robot = new Robot();
+		} catch (AWTException ex) {
+			Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+		}
+
+		createPlayerHelicopter();
+		createEnemyHelicopter();
+		createExplosionLists();
+		createBulletLists();
+		createRocketLists();
+		createRocketSmokeLists();
+		setBackground();
+		setFont();
+		setData();
 
 	}
 
@@ -49,6 +65,23 @@ public class Game {
 		loadBulletImage();
 		loadExplosionImages();
 	}
+private void createRocketSmokeLists() {
+		rocketSmokeList = new ArrayList<RocketSmoke>();
+	}
+
+	private void createRocketLists() {
+		rocketsList = new ArrayList<Rocket>();
+	}
+
+	private void createBulletLists() {
+		bulletsList = new ArrayList<Bullet>();
+	}
+
+	private void createExplosionLists() {
+		explosionsList = new ArrayList<Animation>();
+	}
+
+
 
 	private void loadBackgroundImages() {
 		// TODO Auto-generated method stub
