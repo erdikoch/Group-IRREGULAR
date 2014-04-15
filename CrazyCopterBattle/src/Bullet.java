@@ -13,6 +13,8 @@
  */
 
 import java.awt.Point;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 public class Bullet {
 
@@ -21,6 +23,7 @@ public class Bullet {
 	private static int bulletSpeed = 20;
 	private double movingXspeed;
 	private double movingYspeed;
+public static BufferedImage bulletImg;
 
 	public Bullet(int xCoordinate, int yCoordinate, Point mousePosition) {
 		this.xCoordinate = xCoordinate;
@@ -43,5 +46,20 @@ public class Bullet {
 	private void setSpeeds(double directionVx, double directionVy) {
 		this.movingXspeed = bulletSpeed * directionVx;
 		this.movingYspeed = bulletSpeed * directionVy;
+	}	
+	public boolean isLeftScreen() {
+		if (xCoordinate > 0 && xCoordinate < Framework.frameWidth
+				&& yCoordinate > 0 && yCoordinate < Framework.frameHeight)
+			return false;
+		else
+			return true;
+	}
+public void Update() {
+		xCoordinate += movingXspeed;
+		yCoordinate += movingYspeed;
+	}
+
+	public void Draw(Graphics2D g2d) {
+		g2d.drawImage(bulletImg, (int) xCoordinate, (int) yCoordinate, null);
 	}
 }
