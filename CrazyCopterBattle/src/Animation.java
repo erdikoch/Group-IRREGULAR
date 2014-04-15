@@ -1,5 +1,3 @@
-import java.awt.image.BufferedImage;
-
 /*
  * Cs 320 Group Project / Group IRREGULAR
  * 
@@ -13,6 +11,9 @@ import java.awt.image.BufferedImage;
  * 5 - Ýsmetcan Hergünþen
  * 
  */
+
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 public class Animation {
 
@@ -77,15 +78,20 @@ public class Animation {
 			startingXLocationOfImageFrame = currentFrameNumber * frameWidth;
 			endingXLocationOfImageFrame = startingXLocationOfImageFrame
 					+ frameWidth;
-			
-			//Zaman ayarlanacak??? 
+
 			startingFrameTime = System.currentTimeMillis();
 			timeForNextFrame = startingFrameTime + frameTime;
 		}
 	}
 
-	public void Draw() {
+	public void Draw(Graphics2D g2d) {
 		this.Update();
-		//??
+
+		if (this.timeOfAnimationCreation + this.showDelay <= System
+				.currentTimeMillis())
+			g2d.drawImage(imageOfAnimation, xLocation, yLocation, xLocation
+					+ frameWidth, yLocation + frameHeight,
+					startingXLocationOfImageFrame, 0,
+					endingXLocationOfImageFrame, frameHeight, null);
 	}
 }
