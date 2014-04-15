@@ -11,9 +11,49 @@
  * 5 - Ýsmetcan Hergünþen
  * 
  */
+import java.awt.Robot;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 
 public class Game {
+private Random random;
+
+	// We will use this for setting mouse position.
+	private Robot robot;
+	private PlayerHelicopter player;
+	private ArrayList<EnemyHelicopter> enemyHelicopterList = new ArrayList<EnemyHelicopter>();
+
+	private ArrayList<Animation> explosionsList;
+	private BufferedImage explosionAnimImg;
+
+	private ArrayList<Bullet> bulletsList;
+	private ArrayList<Rocket> rocketsList;
+	private ArrayList<RocketSmoke> rocketSmokeList;
+
+	private BufferedImage skyColorImg;
+
+	private BufferedImage cloudLayer1Img;
+	private BufferedImage cloudLayer2Img;
+	private BufferedImage mountainsImg;
+	private BufferedImage groundImg;
+
+	private MovingBackground cloudLayer1Moving;
+	private MovingBackground cloudLayer2Moving;
+	private MovingBackground mountainsMoving;
+	private MovingBackground groundMoving;
+
+	private BufferedImage mouseCursorImg;
+
+
 
 	public Game() {
 		loadGameContent();
