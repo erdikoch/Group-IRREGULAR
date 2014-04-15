@@ -11,8 +11,8 @@
  * 5 - Ýsmetcan Hergünþen
  * 
  */
-
-import java.awt.image.BufferedImage;
+	import java.awt.Graphics2D;
+	import java.awt.image.BufferedImage;
 
 public class MovingBackground {
 
@@ -61,7 +61,7 @@ public class MovingBackground {
 		}
 	}
 
-	public void Draw() {
+	public void Draw(Graphics2D g2d) {
 		this.Update();
 
 		for (int i = 0; i < xPositions.length; i++) {
