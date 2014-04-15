@@ -63,5 +63,10 @@ public class MovingBackground {
 
 	public void Draw() {
 		this.Update();
+
+		for (int i = 0; i < xPositions.length; i++) {
+			g2d.drawImage(backgroundImage, (int) xPositions[i], yPosition, null);
+		}
+
 	}
 }
