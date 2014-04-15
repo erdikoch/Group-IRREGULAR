@@ -80,19 +80,19 @@ public class Framework extends UserController {
 
 			menuBorderImg = ImageIO
 					.read(new File(
-							"C:\\Users\\erdikoch\\Desktop\\workspace\\helicopterbattle\\resources\\images\\menu_border.png"));
+							"C:\\Users\\Nazli\\images-CS320\\menu_border.png"));
 			skyColorImg = ImageIO
 					.read(new File(
-							"C:\\Users\\erdikoch\\Desktop\\workspace\\helicopterbattle\\resources\\images\\sky_color.jpg"));
+							"C:\\Users\\Nazli\\images-CS320\\sky_color.jpg"));
 			gameTitleImg = ImageIO
 					.read(new File(
-							"C:\\Users\\erdikoch\\Desktop\\workspace\\helicopterbattle\\resources\\images\\helicopter_battle_title.png"));
+							"C:\\Users\\Nazli\\images-CS320\\helicopter_battle_title.png"));
 			cloudLayer1Img = ImageIO
 					.read(new File(
-							"C:\\Users\\erdikoch\\Desktop\\workspace\\helicopterbattle\\resources\\images\\cloud_layer_1.png"));
+							"C:\\Users\\Nazli\\images-CS320\\cloud_layer_1.png"));
 			cloudLayer2Img = ImageIO
 					.read(new File(
-							"C:\\Users\\erdikoch\\Desktop\\workspace\\helicopterbattle\\resources\\images\\cloud_layer_2.png"));
+							"C:\\Users\\Nazli\\images-CS320\\cloud_layer_2.png"));
 
 		} catch (IOException ex) {
 			Logger.getLogger(Framework.class.getName()).log(Level.SEVERE, null,
@@ -116,6 +116,9 @@ public class Framework extends UserController {
 			switch (gameState) {
 
 			case PLAYING:
+				gameTime += System.nanoTime() - lastTimeElapsed;
+				game.UpdateGame(gameTime, mousePosition());
+				lastTimeElapsed = System.nanoTime();
 				break;
 			case GAMEOVER:
 				break;
@@ -168,6 +171,7 @@ public class Framework extends UserController {
 
 		switch (gameState) {
 		case PLAYING:
+			game.draw(g2d, mousePosition(), gameTime);
 			break;
 		case GAMEOVER:
 			setGameOverConditions(g2d);
@@ -206,13 +210,27 @@ public class Framework extends UserController {
 	}
 
 	private void setGameOverConditions(Graphics2D g2d) {
+		drawMenuBackground(g2d);
+		g2d.setColor(Color.black);
+		g2d.drawString("Press ENTER to restart or ESC to exit.",
+				frameWidth / 2 - 113, frameHeight / 4 + 30);
+		game.drawStatistic(g2d, gameTime);
+		g2d.setFont(font);
+		g2d.drawString("GAME OVER", frameWidth / 2 - 90, frameHeight / 4);
 	}
 
 	private void newGame() {
-		}
+		gameTime = 0;
+		lastTimeElapsed = System.nanoTime();
+		game = new Game();
+	}
 
 	private void restartGame() {
-		}
+		gameTime = 0;
+		lastTimeElapsed = System.nanoTime();
+		game.RestartGame();
+		gameState = GameState.PLAYING;
+	}
 
 	private Point mousePosition() {
 		try {
