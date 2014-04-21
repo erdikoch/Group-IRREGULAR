@@ -276,7 +276,12 @@ public class Game {
 		if (isPlayerAlive()) {
 			isPlayerShooting(gameTime, mousePosition);
 			isPlayerFiredRocket(gameTime);
-			player.isMoving();
+			try {
+				player.isMoving();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			player.Update();
 		}
 
@@ -723,4 +728,3 @@ public class Game {
 		return mouseYcoordinate;
 	}
 }
-

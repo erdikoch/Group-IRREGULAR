@@ -18,16 +18,16 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.imageio.ImageIO;
 
 public class PlayerHelicopter {
 
 	private final int healthInit = 100;
 	public int playerHealth;
-
+    private boolean isPaused = false;
 	public int xCoordinate;
 	public int yCoordinate;
 
@@ -78,36 +78,7 @@ public class PlayerHelicopter {
 		this.xCoordinate = xCoordinate;
 		this.yCoordinate = yCoordinate;
 	}
-	
-	private void LoadContent() {
-		try {
-			helicopterBodyImg = ImageIO
-					.read(new File(
-							"C:\\Users\\Nazli\\images-CS320\\1_helicopter_body.png"));
-			helicopterFrontPropellerAnimImg = ImageIO
-					.read(new File(
-							"C:\\Users\\Nazli\\images-CS320\\1_front_propeller_anim.png"));
-			helicopterRearPropellerAnimImg = ImageIO
-					.read(new File(
-							"C:\\Users\\Nazli\\images-CS320\\1_rear_propeller_anim_blur.png"));
 
-		} catch (IOException ex) {
-			Logger.getLogger(PlayerHelicopter.class.getName()).log(
-					Level.SEVERE, null, ex);
-		}
-
-		// Now that we have images of propeller animation we initialize
-		// animation object.
-		helicopterFrontPropellerAnim = new Animation(
-				helicopterFrontPropellerAnimImg, 204, 34, 3, 20, true,
-				xCoordinate + offsetXFrontPropeller, yCoordinate
-						+ offsetYFrontPropeller, 0);
-		helicopterRearPropellerAnim = new Animation(
-				helicopterRearPropellerAnimImg, 54, 54, 4, 20, true,
-				xCoordinate + offsetXRearPropeller, yCoordinate
-						+ offsetYRearPropeller, 0);
-	}
-	
 	private void Initialize() {
 		setHealth();
 
@@ -133,6 +104,35 @@ public class PlayerHelicopter {
 		setMachineGunCoordinates();
 	}
 
+	private void LoadContent() {
+		try {
+			helicopterBodyImg = ImageIO
+					.read(new File(
+							"C:\\Users\\erdikoch\\Desktop\\workspace\\helicopterbattle\\resources\\images\\1_helicopter_body.png"));
+			helicopterFrontPropellerAnimImg = ImageIO
+					.read(new File(
+							"C:\\Users\\erdikoch\\Desktop\\workspace\\helicopterbattle\\resources\\images\\1_front_propeller_anim.png"));
+			helicopterRearPropellerAnimImg = ImageIO
+					.read(new File(
+							"C:\\Users\\erdikoch\\Desktop\\workspace\\helicopterbattle\\resources\\images\\1_rear_propeller_anim_blur.png"));
+
+		} catch (IOException ex) {
+			Logger.getLogger(PlayerHelicopter.class.getName()).log(
+					Level.SEVERE, null, ex);
+		}
+
+		// Now that we have images of propeller animation we initialize
+		// animation object.
+		helicopterFrontPropellerAnim = new Animation(
+				helicopterFrontPropellerAnimImg, 204, 34, 3, 20, true,
+				xCoordinate + offsetXFrontPropeller, yCoordinate
+						+ offsetYFrontPropeller, 0);
+		helicopterRearPropellerAnim = new Animation(
+				helicopterRearPropellerAnimImg, 54, 54, 4, 20, true,
+				xCoordinate + offsetXRearPropeller, yCoordinate
+						+ offsetYRearPropeller, 0);
+	}
+
 	public void Reset(int xCoordinate, int yCoordinate) {
 		setHealth();
 		setAmmo();
@@ -150,14 +150,14 @@ public class PlayerHelicopter {
 		this.numberOfBullets = numberOfAmmoInit;
 	}
 
-	private void setMachineGunCoordinates() {
-		this.machineGunXcoordinate = this.xCoordinate + this.offsetXMachineGun;
-		this.machineGunYcoordinate = this.yCoordinate + this.offsetYMachineGun;
-	}
-	
 	private void setSpeeds() {
 		this.movingXspeed = 0;
 		this.movingYspeed = 0;
+	}
+
+	private void setMachineGunCoordinates() {
+		this.machineGunXcoordinate = this.xCoordinate + this.offsetXMachineGun;
+		this.machineGunYcoordinate = this.yCoordinate + this.offsetYMachineGun;
 	}
 
 	public boolean isShooting(long gameTime) {
@@ -178,7 +178,7 @@ public class PlayerHelicopter {
 			return false;
 	}
 
-	public void isMoving() {
+	public void isMoving() throws InterruptedException {
 		if (UserController.keyboardKeyState(KeyEvent.VK_D)
 				|| UserController.keyboardKeyState(KeyEvent.VK_RIGHT))
 			movingXspeed += acceleratingXspeed;
@@ -190,6 +190,16 @@ public class PlayerHelicopter {
 			movingXspeed += stoppingXspeed;
 		else if (movingXspeed > 0)
 			movingXspeed -= stoppingXspeed;
+		
+		
+	    if(UserController.keyboardKeyState(KeyEvent.VK_P)){
+	    	isPaused =true;
+	    	 pause();
+	    }else {
+	    	isPaused = false;
+	   
+	       
+	    }
 
 		if (UserController.keyboardKeyState(KeyEvent.VK_W)
 				|| UserController.keyboardKeyState(KeyEvent.VK_UP))
@@ -204,11 +214,22 @@ public class PlayerHelicopter {
 			movingYspeed -= stoppingYspeed;
 	}
 
+	private void pause() {
+	    try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	public void Update() {
+
 		updateSpeeds();
 		updatePropellers();
 		updateRocketHolders();
 		setMachineGunCoordinates();
+	
 	}
 
 	private void updateRocketHolders() {

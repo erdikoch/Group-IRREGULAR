@@ -80,19 +80,19 @@ public class Framework extends UserController {
 
 			menuBorderImg = ImageIO
 					.read(new File(
-							"C:\\Users\\Nazli\\images-CS320\\menu_border.png"));
+							"C:\\Users\\erdikoch\\Desktop\\workspace\\helicopterbattle\\resources\\images\\menu_border.png"));
 			skyColorImg = ImageIO
 					.read(new File(
-							"C:\\Users\\Nazli\\images-CS320\\sky_color.jpg"));
+							"C:\\Users\\erdikoch\\Desktop\\workspace\\helicopterbattle\\resources\\images\\sky_color.jpg"));
 			gameTitleImg = ImageIO
 					.read(new File(
-							"C:\\Users\\Nazli\\images-CS320\\helicopter_battle_title.png"));
+							"C:\\Users\\erdikoch\\Desktop\\workspace\\helicopterbattle\\resources\\images\\helicopter_battle_title.png"));
 			cloudLayer1Img = ImageIO
 					.read(new File(
-							"C:\\Users\\Nazli\\images-CS320\\cloud_layer_1.png"));
+							"C:\\Users\\erdikoch\\Desktop\\workspace\\helicopterbattle\\resources\\images\\cloud_layer_1.png"));
 			cloudLayer2Img = ImageIO
 					.read(new File(
-							"C:\\Users\\Nazli\\images-CS320\\cloud_layer_2.png"));
+							"C:\\Users\\erdikoch\\Desktop\\workspace\\helicopterbattle\\resources\\images\\cloud_layer_2.png"));
 
 		} catch (IOException ex) {
 			Logger.getLogger(Framework.class.getName()).log(Level.SEVERE, null,
@@ -179,12 +179,22 @@ public class Framework extends UserController {
 		case MAIN_MENU:
 			setMenuConditions(g2d);
 			break;
+		case PAUSE:
+			pause(GAME_UPDATE_PERIOD);
 		case OPTIONS:
 			break;
 		case GAME_CONTENT_LOADING:
 			setLoadingConditions(g2d);
 			break;
 		}
+	}
+
+	private void pause(Long ms) {
+		       Long dietime = System.currentTimeMillis()+ms;
+		       while(System.currentTimeMillis()<dietime){
+		           //do nothing
+		   }
+		
 	}
 
 	private void setLoadingConditions(Graphics2D g2d) {
