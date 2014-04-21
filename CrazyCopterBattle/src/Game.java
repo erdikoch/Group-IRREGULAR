@@ -6,12 +6,11 @@
  * Group Members : 
  * 1 - Erdi Koç
  * 2 - Gamze Küçükçolak
- * 3 - Mehmet Kaðan Kayaalp
- * 4 - Nazlý Karalar
- * 5 - Ýsmetcan Hergünþen
+ * 3 - Mehmet Ka?an Kayaalp
+ * 4 - Nazl? Karalar
+ * 5 - ?smetcan Hergün?en
  * 
  */
-
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Font;
@@ -23,49 +22,38 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.imageio.ImageIO;
-
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 public class Game {
-
 	private Random random;
-
 	// We will use this for setting mouse position.
 	private Robot robot;
 	private PlayerHelicopter player;
 	private ArrayList<EnemyHelicopter> enemyHelicopterList = new ArrayList<EnemyHelicopter>();
-
 	private ArrayList<Animation> explosionsList;
 	private BufferedImage explosionAnimImg;
-
 	private ArrayList<Bullet> bulletsList;
 	private ArrayList<Rocket> rocketsList;
 	private ArrayList<RocketSmoke> rocketSmokeList;
-
 	private BufferedImage skyColorImg;
-
 	private BufferedImage cloudLayer1Img;
 	private BufferedImage cloudLayer2Img;
 	private BufferedImage mountainsImg;
 	private BufferedImage groundImg;
-
 	private MovingBackground cloudLayer1Moving;
 	private MovingBackground cloudLayer2Moving;
 	private MovingBackground mountainsMoving;
 	private MovingBackground groundMoving;
-
 	private BufferedImage mouseCursorImg;
-
 	private Font font;
-
 	private int runAwayEnemies;
 	private int destroyedEnemies;
-
 	public Game() {
 		loadGameContent();
 		Thread threadForInitGame = new Thread() {
@@ -74,19 +62,32 @@ public class Game {
 				initialize();
 				LoadContent();
 				playGame();
+				playBackgroundMusic(); 
 			}
-
+			
+			private void playBackgroundMusic(){
+				
+				    try {
+				        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("C:\\Users\\Nazli\\images-CS320\\Alexandra Stan - Mr Saxobeat.wav").getAbsoluteFile());
+				        Clip clip = AudioSystem.getClip();
+				        clip.open(audioInputStream);
+				        clip.start();
+				    } catch(Exception ex) {
+				        System.out.println("Error with playing sound.");
+				        ex.printStackTrace();
+				    }
+				
+			}
 			private void playGame() {
 				Framework.gameState = Framework.GameState.PLAYING;
 			}
 		};
 		threadForInitGame.start();
 	}
-
+	
 	private void loadGameContent() {
 		Framework.gameState = Framework.GameState.GAME_CONTENT_LOADING;
 	}
-
 	private void initialize() {
 		random = new Random();
 		try {
@@ -94,7 +95,6 @@ public class Game {
 		} catch (AWTException ex) {
 			Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
 		}
-
 		createPlayerHelicopter();
 		createEnemyHelicopter();
 		createExplosionLists();
@@ -105,48 +105,38 @@ public class Game {
 		setFont();
 		setData();
 	}
-
 	private void setData() {
 		runAwayEnemies = 0;
 		destroyedEnemies = 0;
 	}
-
 	private void setFont() {
 		font = new Font("monospaced", Font.BOLD, 18);
 	}
-
 	private void setBackground() {
 		cloudLayer1Moving = new MovingBackground();
 		cloudLayer2Moving = new MovingBackground();
 		mountainsMoving = new MovingBackground();
 		groundMoving = new MovingBackground();
 	}
-
 	private void createRocketSmokeLists() {
 		rocketSmokeList = new ArrayList<RocketSmoke>();
 	}
-
 	private void createRocketLists() {
 		rocketsList = new ArrayList<Rocket>();
 	}
-
 	private void createBulletLists() {
 		bulletsList = new ArrayList<Bullet>();
 	}
-
 	private void createExplosionLists() {
 		explosionsList = new ArrayList<Animation>();
 	}
-
 	private void createEnemyHelicopter() {
 		enemyHelicopterList = new ArrayList<EnemyHelicopter>();
 	}
-
 	private void createPlayerHelicopter() {
 		player = new PlayerHelicopter(Framework.frameWidth / 4,
 				Framework.frameHeight / 4);
 	}
-
 	private void LoadContent() {
 		try {
 			loadBackgroundImages();
@@ -161,7 +151,6 @@ public class Game {
 		}
 		initializeBackground();
 	}
-
 	private void initializeBackground() {
 		cloudLayer1Moving.initialize(cloudLayer1Img, -6, 0);
 		cloudLayer2Moving.initialize(cloudLayer2Img, -2, 0);
@@ -170,67 +159,66 @@ public class Game {
 		groundMoving.initialize(groundImg, -1.2, Framework.frameHeight
 				- groundImg.getHeight());
 	}
-
 	private void loadExplosionImages() throws IOException {
 		explosionAnimImg = ImageIO
 				.read(new File(
-						"C:\\Users\\erdikoch\\Desktop\\workspace\\helicopterbattle\\resources\\images\\explosion_anim.png"));
+						"C:\\Users\\Nazli\\images-CS320\\explosion_anim.png"));
 	}
 
 	private void loadBulletImage() throws IOException {
 		Bullet.bulletImg = ImageIO
 				.read(new File(
-						"C:\\Users\\erdikoch\\Desktop\\workspace\\helicopterbattle\\resources\\images\\bullet.png"));
+						"C:\\Users\\Nazli\\images-CS320\\bullet.png"));
 	}
 
 	private void loadMouseCursorImage() throws IOException {
 		mouseCursorImg = ImageIO
 				.read(new File(
-						"C:\\Users\\erdikoch\\Desktop\\workspace\\helicopterbattle\\resources\\images\\mouse_cursor.png"));
+						"C:\\Users\\Nazli\\images-CS320\\mouse_cursor.png"));
 	}
 
 	private void loadRocketSmokeImages() throws IOException {
 		RocketSmoke.smokeImg = ImageIO
 				.read(new File(
-						"C:\\Users\\erdikoch\\Desktop\\workspace\\helicopterbattle\\resources\\images\\rocket_smoke.png"));
+						"C:\\Users\\Nazli\\images-CS320\\rocket_smoke.png"));
 	}
 
 	private void loadRocketImages() throws IOException {
 		Rocket.rocketImg = ImageIO
 				.read(new File(
-						"C:\\Users\\erdikoch\\Desktop\\workspace\\helicopterbattle\\resources\\images\\rocket.png"));
+						"C:\\Users\\Nazli\\images-CS320\\rocket.png"));
 	}
 
 	private void loadEnemyImages() throws IOException {
 		EnemyHelicopter.helicopterBodyImg = ImageIO
 				.read(new File(
-						"C:\\Users\\erdikoch\\Desktop\\workspace\\helicopterbattle\\resources\\images\\2_helicopter_body.png"));
+						"C:\\Users\\Nazli\\images-CS320\\2_helicopter_body.png"));
 		EnemyHelicopter.helicopterFrontPropellerAnimImg = ImageIO
 				.read(new File(
-						"C:\\Users\\erdikoch\\Desktop\\workspace\\helicopterbattle\\resources\\images\\2_front_propeller_anim.png"));
+						"C:\\Users\\Nazli\\images-CS320\\2_front_propeller_anim.png"));
 		EnemyHelicopter.helicopterRearPropellerAnimImg = ImageIO
 				.read(new File(
-						"C:\\Users\\erdikoch\\Desktop\\workspace\\helicopterbattle\\resources\\images\\2_rear_propeller_anim.png"));
+						"C:\\Users\\Nazli\\images-CS320\\2_rear_propeller_anim.png"));
 	}
 
 	private void loadBackgroundImages() throws IOException {
 		skyColorImg = ImageIO
 				.read(new File(
-						"C:\\Users\\erdikoch\\Desktop\\workspace\\helicopterbattle\\resources\\images\\sky_color.jpg"));
+						"C:\\Users\\Nazli\\images-CS320\\sky_color.jpg"));
 		cloudLayer1Img = ImageIO
 				.read(new File(
-						"C:\\Users\\erdikoch\\Desktop\\workspace\\helicopterbattle\\resources\\images\\cloud_layer_1.png"));
+						"C:\\Users\\Nazli\\images-CS320\\cloud_layer_1.png"));
 		cloudLayer2Img = ImageIO
 				.read(new File(
-						"C:\\Users\\erdikoch\\Desktop\\workspace\\helicopterbattle\\resources\\images\\cloud_layer_2.png"));
+						"C:\\Users\\Nazli\\images-CS320\\cloud_layer_2.png"));
 		mountainsImg = ImageIO
 				.read(new File(
-						"C:\\Users\\erdikoch\\Desktop\\workspace\\helicopterbattle\\resources\\images\\mountains.png"));
+						"C:\\Users\\Nazli\\images-CS320\\mountains.png"));
 		groundImg = ImageIO
 				.read(new File(
-						"C:\\Users\\erdikoch\\Desktop\\workspace\\helicopterbattle\\resources\\images\\ground.png"));
+						"C:\\Users\\Nazli\\images-CS320\\ground.png"));
 	}
-
+	
 	public void RestartGame() {
 		resetPlayerData();
 		resetEnemyData();
@@ -239,7 +227,6 @@ public class Game {
 		clearTheLists();
 		setData();
 	}
-
 	private void clearTheLists() {
 		enemyHelicopterList.clear();
 		bulletsList.clear();
@@ -247,23 +234,18 @@ public class Game {
 		rocketSmokeList.clear();
 		explosionsList.clear();
 	}
-
 	private void resetRocketData() {
 		Rocket.timeOfLastCreatedRocket = 0;
 	}
-
 	private void resetBulletData() {
 		Bullet.timeOfLastCreatedBullet = 0;
 	}
-
 	private void resetEnemyData() {
 		EnemyHelicopter.restartEnemy();
 	}
-
 	private void resetPlayerData() {
 		player.Reset(Framework.frameWidth / 4, Framework.frameHeight / 4);
 	}
-
 	public void UpdateGame(long gameTime, Point mousePosition) {
 		if (isGameOver()) {
 			gameOver();
@@ -284,7 +266,6 @@ public class Game {
 			}
 			player.Update();
 		}
-
 		limitMousePosition(mousePosition);
 		updateBullets();
 		updateRockets(gameTime);
@@ -293,29 +274,23 @@ public class Game {
 		updateEnemies();
 		updateExplosions();
 	}
-
 	private boolean isListEmpty() {
 		return player.numberOfBullets <= 0 && player.numberOfRockets <= 0
 				&& bulletsList.isEmpty() && rocketsList.isEmpty()
 				&& explosionsList.isEmpty();
 	}
-
 	private void gameOver() {
 		Framework.gameState = Framework.GameState.GAMEOVER;
 	}
-
 	private boolean isGameOver() {
 		return !isPlayerAlive() && explosionsList.isEmpty();
 	}
-
 	public void draw(Graphics2D g2d, Point mousePosition, long gameTime) {
 		g2d.drawImage(skyColorImg, 0, 0, Framework.frameWidth,
 				Framework.frameHeight, null);
-
 		mountainsMoving.Draw(g2d);
 		groundMoving.Draw(g2d);
 		cloudLayer2Moving.Draw(g2d);
-
 		isPlayerAlive(g2d);
 		drawEnemyHelicopters(g2d);
 		drawBulletLists(g2d);
@@ -323,59 +298,48 @@ public class Game {
 		drawRocketSmokeLists(g2d);
 		drawExplosionLists(g2d);
 		setFonts(g2d);
-
 		g2d.drawString(formatTime(gameTime), Framework.frameWidth / 2 - 45, 21);
 		g2d.drawString("DESTROYED: " + destroyedEnemies, 10, 21);
 		g2d.drawString("RUNAWAY: " + runAwayEnemies, 10, 41);
 		g2d.drawString("ROCKETS: " + player.numberOfRockets, 10, 81);
 		g2d.drawString("BULLETS: " + player.numberOfBullets, 10, 101);
-
 		cloudLayer1Moving.Draw(g2d);
-
 		if (isPlayerAlive())
 			drawRotatedMouseCursor(g2d, mousePosition);
 	}
-
 	private void setFonts(Graphics2D g2d) {
 		g2d.setFont(font);
 		g2d.setColor(Color.darkGray);
 	}
-
 	private void drawExplosionLists(Graphics2D g2d) {
 		for (int i = 0; i < explosionsList.size(); i++) {
 			explosionsList.get(i).Draw(g2d);
 		}
 	}
-
 	private void drawRocketSmokeLists(Graphics2D g2d) {
 		for (int i = 0; i < rocketSmokeList.size(); i++) {
 			rocketSmokeList.get(i).Draw(g2d);
 		}
 	}
-
 	private void isPlayerAlive(Graphics2D g2d) {
 		if (isPlayerAlive())
 			player.Draw(g2d);
 	}
-
 	private void drawRocketLists(Graphics2D g2d) {
 		for (int i = 0; i < rocketsList.size(); i++) {
 			rocketsList.get(i).Draw(g2d);
 		}
 	}
-
 	private void drawBulletLists(Graphics2D g2d) {
 		for (int i = 0; i < bulletsList.size(); i++) {
 			bulletsList.get(i).Draw(g2d);
 		}
 	}
-
 	private void drawEnemyHelicopters(Graphics2D g2d) {
 		for (int i = 0; i < enemyHelicopterList.size(); i++) {
 			enemyHelicopterList.get(i).Draw(g2d);
 		}
 	}
-
 	public void drawStatistic(Graphics2D g2d, long gameTime) {
 		g2d.drawString("Time: " + formatTime(gameTime),
 				Framework.frameWidth / 2 - 50, Framework.frameHeight / 3 + 80);
@@ -391,18 +355,14 @@ public class Game {
 		g2d.drawString("Statistics: ", Framework.frameWidth / 2 - 75,
 				Framework.frameHeight / 3 + 60);
 	}
-
 	private void drawRotatedMouseCursor(Graphics2D g2d, Point mousePosition) {
 		double RIGHT_ANGLE_RADIANS = Math.PI / 2;
-
 		int pivotX = player.machineGunXcoordinate;
 		int pivotY = player.machineGunYcoordinate;
-
 		int a = pivotX - mousePosition.x;
 		int b = pivotY - mousePosition.y;
 		double ab = (double) a / (double) b;
 		double alfaAngleRadians = Math.atan(ab);
-
 		if (mousePosition.y < pivotY) // Above the helicopter.
 			alfaAngleRadians = RIGHT_ANGLE_RADIANS - alfaAngleRadians
 					- RIGHT_ANGLE_RADIANS * 2;
@@ -410,21 +370,16 @@ public class Game {
 			alfaAngleRadians = RIGHT_ANGLE_RADIANS - alfaAngleRadians;
 		else
 			alfaAngleRadians = 0;
-
 		AffineTransform origXform = g2d.getTransform();
 		AffineTransform newXform = (AffineTransform) (origXform.clone());
-
 		newXform.rotate(alfaAngleRadians, mousePosition.x, mousePosition.y);
 		g2d.setTransform(newXform);
-
 		// We subtract half of the cursor image so that will be drawn in center
 		// of the y mouse coordinate.
 		g2d.drawImage(mouseCursorImg, mousePosition.x, mousePosition.y
 				- mouseCursorImg.getHeight() / 2, null);
-
 		g2d.setTransform(origXform);
 	}
-
 	/**
 	 * Format given time into 00:00 format.
 	 * 
@@ -436,13 +391,11 @@ public class Game {
 		int sec = getSeconds(time);
 		int min = getMinutes(sec);
 		sec = sec - (min * 60);
-		
 		String minString, secString;
 		minString = setClockMin(min);
 		secString = setClockMin(sec);
 		return minString + ":" + secString;
 	}
-
 	private static String setClockMin(int min) {
 		String minString;
 		if (min <= 9)
@@ -451,23 +404,19 @@ public class Game {
 			minString = "" + Integer.toString(min);
 		return minString;
 	}
-
 	private static int getMinutes(int sec) {
 		int min = sec / 60;
 		return min;
 	}
-
 	private static int getSeconds(long time) {
 		int sec = (int) (time / Framework.milisecInNanosec / 1000);
 		return sec;
 	}
-
 	private boolean isPlayerAlive() {
 		if (player.playerHealth <= 0)
 			return false;
 		return true;
 	}
-
 	private void isPlayerShooting(long gameTime, Point mousePosition) {
 		if (player.isShooting(gameTime)) {
 			Bullet.timeOfLastCreatedBullet = gameTime;
@@ -477,7 +426,6 @@ public class Game {
 			bulletsList.add(b);
 		}
 	}
-
 	private void isPlayerFiredRocket(long gameTime) {
 		if (player.isRocketFired(gameTime)) {
 			Rocket.timeOfLastCreatedRocket = gameTime;
@@ -488,7 +436,6 @@ public class Game {
 			rocketsList.add(rocket);
 		}
 	}
-
 	private void createEnemyHelicopter(long gameTime) {
 		if (gameTime - EnemyHelicopter.timeOfLastCreatedEnemy >= EnemyHelicopter.timeBetweenNewEnemies) {
 			EnemyHelicopter enemyHelicopter = new EnemyHelicopter();
@@ -496,32 +443,25 @@ public class Game {
 			int yCoordinate = random.nextInt(Framework.frameHeight
 					- EnemyHelicopter.helicopterBodyImg.getHeight());
 			enemyHelicopter.Initialize(xCoordinate, yCoordinate);
-
 			enemyHelicopterList.add(enemyHelicopter);
 			EnemyHelicopter.speedUp();
 			EnemyHelicopter.timeOfLastCreatedEnemy = gameTime;
 		}
 	}
-
 	private void updateEnemies() {
 		for (int i = 0; i < enemyHelicopterList.size(); i++) {
 			EnemyHelicopter enemyHelicopter = enemyHelicopterList.get(i);
-
 			enemyHelicopter.Update();
-
 			// Is crashed with player?
 			Rectangle playerRectangle = createPlayerRectangle();
 			Rectangle enemyRectangle = createEnemyRectangle(enemyHelicopter);
-
 			if (playerRectangle.intersects(enemyRectangle)) {
 				player.playerHealth = 0;
 				enemyHelicopterList.remove(i);
 				explosionOfPlayerHelicopter();
 				explosionOfEnemyHelicopter(enemyHelicopter);
-
 				break;
 			}
-
 			if (enemyHelicopter.enemyHealth <= 0) {
 				// Add explosion of helicopter.
 				Animation expAnim = new Animation(explosionAnimImg, 134, 134,
@@ -533,14 +473,12 @@ public class Game {
 				enemyHelicopterList.remove(i);
 				continue;
 			}
-
 			if (enemyHelicopter.isLeftScreen()) {
 				enemyHelicopterList.remove(i);
 				runAwayEnemies++;
 			}
 		}
 	}
-
 	private void explosionOfEnemyHelicopter(EnemyHelicopter enemyHelicopter) {
 		for (int exNum = 0; exNum < 3; exNum++) {
 			Animation expAnim = new Animation(explosionAnimImg, 134, 134, 12,
@@ -550,7 +488,6 @@ public class Game {
 			explosionsList.add(expAnim);
 		}
 	}
-
 	private void explosionOfPlayerHelicopter() {
 		for (int exNum = 0; exNum < 3; exNum++) {
 			Animation expAnim = new Animation(explosionAnimImg, 134, 134, 12,
@@ -560,7 +497,6 @@ public class Game {
 			explosionsList.add(expAnim);
 		}
 	}
-
 	private Rectangle createEnemyRectangle(EnemyHelicopter enemyHelicopter) {
 		Rectangle enemyRectangle = new Rectangle(enemyHelicopter.xCoordinate,
 				enemyHelicopter.yCoordinate,
@@ -568,14 +504,12 @@ public class Game {
 				EnemyHelicopter.helicopterBodyImg.getHeight());
 		return enemyRectangle;
 	}
-
 	private Rectangle createPlayerRectangle() {
 		Rectangle playerRectangle = new Rectangle(player.xCoordinate,
 				player.yCoordinate, player.helicopterBodyImg.getWidth(),
 				player.helicopterBodyImg.getHeight());
 		return playerRectangle;
 	}
-
 	private void updateBullets() {
 		for (int i = 0; i < bulletsList.size(); i++) {
 			Bullet bullet = bulletsList.get(i);
@@ -588,14 +522,12 @@ public class Game {
 			checkBulletHit(i, bulletRectangle);
 		}
 	}
-
 	private Rectangle createBulletRectangle(Bullet bullet) {
 		Rectangle bulletRectangle = new Rectangle((int) bullet.xCoordinate,
 				(int) bullet.yCoordinate, Bullet.bulletImg.getWidth(),
 				Bullet.bulletImg.getHeight());
 		return bulletRectangle;
 	}
-
 	private void checkBulletHit(int i, Rectangle bulletRectangle) {
 		for (int j = 0; j < enemyHelicopterList.size(); j++) {
 			EnemyHelicopter eh = enemyHelicopterList.get(j);
@@ -607,7 +539,6 @@ public class Game {
 			}
 		}
 	}
-
 	private void updateRockets(long gameTime) {
 		for (int i = 0; i < rocketsList.size(); i++) {
 			Rocket rocket = rocketsList.get(i);
@@ -616,13 +547,11 @@ public class Game {
 				rocketsList.remove(i);
 				continue;
 			}
-
 			RocketSmoke rocketSmoke = new RocketSmoke();
 			int xCoordinate = setXCoordinateForRocketSmoke(rocket);
 			int yCoordinte = setYCoordinateForRocketSmoke(rocket);
 			initializeRocketSmoke(gameTime, rocket, rocketSmoke, xCoordinate,
 					yCoordinte);
-
 			int smokePositionX = 5 + random.nextInt(8);
 			rocketSmoke = new RocketSmoke();
 			xCoordinate = updateXCoordinate(rocket, smokePositionX);
@@ -634,37 +563,31 @@ public class Game {
 				rocketsList.remove(i);
 		}
 	}
-
 	private int updateYCoordinate(Rocket rocket) {
 		int yCoordinte;
 		yCoordinte = rocket.yCoordinate - 5 + random.nextInt(6);
 		return yCoordinte;
 	}
-
 	private int updateXCoordinate(Rocket rocket, int smokePositionX) {
 		int xCoordinate;
 		xCoordinate = rocket.xCoordinate - RocketSmoke.smokeImg.getWidth()
 				+ smokePositionX;
 		return xCoordinate;
 	}
-
 	private void initializeRocketSmoke(long gameTime, Rocket rocket,
 			RocketSmoke rocketSmoke, int xCoordinate, int yCoordinte) {
 		rocketSmoke.Initialize(xCoordinate, yCoordinte, gameTime,
 				rocket.currentSmokeLifeTime);
 		rocketSmokeList.add(rocketSmoke);
 	}
-
 	private int setYCoordinateForRocketSmoke(Rocket rocket) {
 		int yCoordinte = rocket.yCoordinate - 5 + random.nextInt(6);
 		return yCoordinte;
 	}
-
 	private int setXCoordinateForRocketSmoke(Rocket rocket) {
 		int xCoordinate = rocket.xCoordinate - RocketSmoke.smokeImg.getWidth();
 		return xCoordinate;
 	}
-
 	private boolean checkIfRocketHitEnemy(Rocket rocket) {
 		boolean didItHitEnemy = false;
 		Rectangle rocketRectangle = new Rectangle(rocket.xCoordinate,
@@ -678,10 +601,8 @@ public class Game {
 				break;
 			}
 		}
-
 		return didItHitEnemy;
 	}
-
 	private void updateRocketSmoke(long gameTime) {
 		for (int i = 0; i < rocketSmokeList.size(); i++) {
 			RocketSmoke rs = rocketSmokeList.get(i);
@@ -690,19 +611,16 @@ public class Game {
 			rs.updateTransparency(gameTime);
 		}
 	}
-
 	private void updateExplosions() {
 		for (int i = 0; i < explosionsList.size(); i++) {
 			if (!explosionsList.get(i).isActivated)
 				explosionsList.remove(i);
 		}
 	}
-
 	private void limitMousePosition(Point mousePosition) {
 		int maxYcoordinateDistanceFromPlayerTop = 30;
 		int maxYcoordinateDistanceFromPlayerBottom = 120;
 		int mouseXcoordinate = player.machineGunXcoordinate + 250;
-
 		int mouseYcoordinate = mousePosition.y;
 		mouseYcoordinate = checkMachineGunPositions(mousePosition,
 				maxYcoordinateDistanceFromPlayerTop,
@@ -710,7 +628,6 @@ public class Game {
 		mouseYcoordinate += player.movingYspeed;
 		robot.mouseMove(mouseXcoordinate, mouseYcoordinate);
 	}
-
 	private int checkMachineGunPositions(Point mousePosition,
 			int maxYcoordinateDistanceFromPlayerTop,
 			int maxYcoordinateDistanceFromPlayerBottom, int mouseYcoordinate) {
